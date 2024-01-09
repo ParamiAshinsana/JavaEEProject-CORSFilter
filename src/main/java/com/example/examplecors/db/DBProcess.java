@@ -1,5 +1,8 @@
 package com.example.examplecors.db;
 
+import com.example.examplecors.dto.ItemDTO;
+import lombok.var;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -9,7 +12,7 @@ public class DBProcess {
     public void saveItemOne(ItemDTO items, Connection connection){
         try {
             var ps = connection.prepareStatement(SAVE_ITEM_DATA);
-            ps.setString(1, customItemId);
+            ps.setString(1, items.getCode());
             ps.setString(2, items.getDescription());
             ps.setInt(3, items.getQty());
             ps.setDouble(4, items.getUnitPrice());
