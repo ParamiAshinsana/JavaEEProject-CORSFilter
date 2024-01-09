@@ -13,6 +13,6 @@ import java.io.Serializable;
 public class ItemDTO implements Serializable {
     private String code;
     private String description;
-    private int qty;
     private double unitPrice;
+    private int qty;
 }

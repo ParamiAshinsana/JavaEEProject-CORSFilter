@@ -1,11 +1,18 @@
 package com.example.examplecors.api;
 
+import com.example.examplecors.db.DBProcess;
+import com.example.examplecors.dto.ItemDTO;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
 import lombok.var;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -25,7 +32,7 @@ public class Item extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        System.out.println("");
+        System.out.println("hello Init");
         try {
             var user = getServletConfig().getInitParameter("db-user");
             var password = getServletConfig().getInitParameter("db-pw");
@@ -43,6 +50,17 @@ public class Item extends HttpServlet {
         }
     }
 
-
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("Hello Dopost");
+        if (req.getContentType() == null || !req.getContentType().toLowerCase().startsWith("application/json")) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
+        } else {
+            Jsonb jsonb = JsonbBuilder.create();
+            var itemDTO = jsonb.fromJson(req.getReader(), ItemDTO.class);
+            var dbProcess = new DBProcess();
+            dbProcess.saveItemOne(itemDTO, connection);
+        }
+    }
 
 }
