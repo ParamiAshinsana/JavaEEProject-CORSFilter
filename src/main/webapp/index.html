@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Item Save</title>
+
+    <link rel="stylesheet" href="../../../style/style_css.css">
+    <link rel="stylesheet" href="../../../style/bootstrap/bootstrap-5.3.1-dist/css/bootstrap.min.css">
+
+</head>
+<body>
+<h2 class="main-topic">Item Save</h2>
+<div class="container">
+    <div class="row">
+        <div class="col col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
+            <form>
+                <div class="mb-3">
+                    <label for="item_code" class="form-label">Item Code :</label>
+                    <input type="text" class="form-control" id="item_code" placeholder="Type Item Code here">
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Item Description :</label>
+                    <input type="text" class="form-control" id="description" placeholder="Type Description here">
+                </div>
+
+                <div class="mb-3">
+                    <label for="item_price" class="form-label">Item Price :</label>
+                    <input type="text" class="form-control" id="item_price" placeholder="Type Item Price here">
+                </div>
+
+                <div class="mb-3">
+                    <label for="item_qty" class="form-label">Item Quantity :</label>
+                    <input type="text" class="form-control" id="item_qty" placeholder="Type Item Quantity here">
+                </div>
+
+                <div class="mt-5 m-5" id="item-btns">
+                    <button type="button" class="btn btn-success" id="saveBtn">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="../../../style/bootstrap/bootstrap-5.3.1-dist/js/bootstrap.min.js"></script>
+<script src="../../../style/jquery/lib/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#item-btns button').click(function(event) {
+            event.preventDefault();
+
+            let itemCode = $('#item_code').val();
+            let description = $('#description').val();
+            let itemPrice = $('#item_price').val();
+            let itemQuantity = $('#item_qty').val();
+
+            console.log('Item Code:', itemCode);
+            console.log('Item Description:', description);
+            console.log('Item Price:', itemPrice);
+            console.log('Item Quantity:', itemQuantity);
+
+            const itemData = {
+                descriptionF: description,
+                qtyF: itemQuantity,
+                priceF: itemPrice
+            };
+            console.log(itemData);
+
+            var jsonData = JSON.stringify(itemData);
+            console.log(jsonData);
+
+            // const sendAjax = () => {
+            //     const http = new XMLHttpRequest();
+            //     http.onreadystatechange = () => {
+            //         if (http.readyState == 4 && http.status == 200) {
+            //             console.log("Success !");
+            //             console.log(http.readyState);
+            //         } else {
+            //             console.log("Failed !");
+            //             console.log(http.readyState);
+            //         }
+            //     }
+            //
+            //     // create ekk krna hinda post ekk gnne
+            //     http.open("POST", "http://localhost:8080/shop/item", true);// AJAX ekk POST ekk vdihtai gtthe methana
+            //     http.setRequestHeader("Content-Type", "application/json");
+            //     http.send(jsonData);
+            // }
+            //
+            // sendAjax();
+
+            const http = new XMLHttpRequest();
+            http.onreadystatechange =() =>{
+                if(http.readyState == 4 && http.status == 200){
+                    console.log("Success !");
+                    console.log(http.readyState);
+
+                }else{
+                    console.log("Failed !");
+                    console.log(http.readyState);
+                }
+            }
+            // create ekk krna hinda post ekk gnne
+            http.open("POST", "http://localhost:8080/shop/item", true);// AJAX ekk POST ekk vdihtai gtthe methana
+            http.setRequestHeader("Content-Type", "application/json");
+            http.send(jsonData);
+        });
+    });
+
+
+
+
+
+
+
+    // $.ajax({
+    //     url:"http://localhost:8080/pos/item",
+    //     type:"POST",
+    //     data:itemJSON,
+    //     headers:{}
+    // });
+</script>
+</body>
+</html>
